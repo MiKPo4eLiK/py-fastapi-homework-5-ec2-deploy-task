@@ -1,7 +1,7 @@
 from fastapi import FastAPI
 from fastapi.responses import RedirectResponse
 
-from routes import (
+from src.routes import (
     movie_router,
     accounts_router,
     profiles_router
