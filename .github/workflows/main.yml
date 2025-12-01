@@ -29,6 +29,7 @@ jobs:
 
       - name: Run accounts tests
         run: |
+          export PYTHONPATH=$(pwd)/src
           poetry run pytest src/tests/test_integration/test_accounts.py
 
   test-movies:
@@ -54,6 +55,7 @@ jobs:
 
       - name: Run movies tests
         run: |
+          export PYTHONPATH=$(pwd)/src
           poetry run pytest src/tests/test_integration/test_movies.py
 
   test-profiles:
@@ -77,8 +79,9 @@ jobs:
         run: |
           poetry run flake8 src
 
-      - name: Run movies tests
+      - name: Run profiles tests
         run: |
+          export PYTHONPATH=$(pwd)/src
           poetry run pytest src/tests/test_integration/test_profiles.py
 
   test-e2e:
