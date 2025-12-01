@@ -83,15 +83,30 @@ jobs:
 
   test-e2e:
     runs-on: ubuntu-latest
+    services:
+      docker:
+        image: docker:24.0.6
+        options: --privileged
+        ports:
+          - 8025:8025  # Mailhog
+          - 9000:9000  # MinIO
+          - 9001:9001  # MinIO Console
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Start Docker Compose and wait for completion
+      - name: Set up Docker Compose
+        run: |
+          docker compose version
+
+      - name: Build and run E2E tests
         run: |
           docker compose -f docker-compose-tests.yml up --build --abort-on-container-exit --exit-code-from web
 
       - name: Cleanup
         if: always()
         run: |
-          docker compose -f docker-compose-tests.yml down
+          docker compose -f docker-compose-tests.yml down -v
